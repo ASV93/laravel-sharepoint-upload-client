@@ -213,4 +213,20 @@ class Client {
 
 	}
 
+	public function downloadFile($refresh_token, $file_path) {
+        $guzzle = $this->createGuzzleClient();
+        $response = $guzzle->request(
+            'GET',
+            "{$this->site_url}/_api/web/GetFileByServerRelativeUrl('{$file_path}')/openbinarystream",
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->getAccessToken( $refresh_token )
+                ]
+            ]
+        );
+
+        return $response->getBody();
+
+    }
+
 }
